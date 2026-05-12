@@ -1,11 +1,23 @@
 "use client";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [formStatus, setFormStatus] = useState("");
-  
+  const [currentImg, setCurrentImg] = useState(0);
+
+  // Nomes das imagens que devem estar na pasta /public
+  const images = ["jefferson.webp", "valdemir.webp"];
+
+  // Efeito para trocar a imagem a cada 5 segundos
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImg((prev) => (prev === 0 ? 1 : 0));
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   const whatsappLink = "https://wa.me/5581999620635?text=Olá! Gostaria de um orçamento para serviços de portaria e limpeza.";
 
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, id: string) => {
@@ -34,16 +46,12 @@ export default function Home() {
       
       <style dangerouslySetInnerHTML={{ __html: `
         html { scroll-behavior: smooth; }
-        
-        /* Efeito de Pulso WhatsApp - Elegante e Discreto */
         @keyframes whatsappPulse {
           0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); }
           70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
           100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
         }
-        
         @keyframes zoomIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
-        
         .whatsapp-float {
           position: fixed;
           bottom: 25px;
@@ -59,10 +67,10 @@ export default function Home() {
           animation: whatsappPulse 2s infinite;
           text-decoration: none;
         }
-
         .input-focus:focus { outline: none; border-color: #3b82f6 !important; box-shadow: 0 0 8px rgba(59, 130, 246, 0.3); }
         .service-card { transition: all 0.3s ease; }
         .service-card:hover { border-color: #3b82f6 !important; transform: translateY(-5px); }
+        .fade-image { transition: opacity 0.8s ease-in-out; }
         
         @media (max-width: 768px) {
           .hero-title { font-size: 42px !important; }
@@ -74,21 +82,17 @@ export default function Home() {
         }
       `}} />
 
-      {/* Botão WhatsApp Flutuante */}
       <a href={whatsappLink} target="_blank" className="whatsapp-float">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style={{ width: '28px' }} />
       </a>
 
-      {/* Header */}
       <nav style={{ display: 'flex', justifyContent: 'space-between', padding: '20px 6%', alignItems: 'center', borderBottom: '1px solid #111', backgroundColor: 'rgba(5, 5, 5, 0.85)', backdropFilter: 'blur(12px)', position: 'sticky', top: 0, zIndex: 1500 }}>
         <div style={{ fontSize: '20px', fontWeight: '900', letterSpacing: '-1px' }}>MP <span style={{ color: '#3b82f6' }}>SERV PORT</span></div>
-        
         <div className="desktop-nav" style={{ display: 'flex', gap: '30px', alignItems: 'center' }}>
           <a href="#sobre" onClick={(e) => handleScroll(e, 'sobre')} style={{ color: '#888', textDecoration: 'none', fontSize: '12px', fontWeight: 'bold' }}>QUEM SOMOS</a>
           <a href="#servicos" onClick={(e) => handleScroll(e, 'servicos')} style={{ color: '#888', textDecoration: 'none', fontSize: '12px', fontWeight: 'bold' }}>SERVIÇOS</a>
           <button onClick={() => setShowForm(true)} style={{ backgroundColor: '#3b82f6', color: 'white', border: 'none', padding: '10px 22px', borderRadius: '6px', fontWeight: 'bold', cursor: 'pointer', fontSize: '12px' }}>ORÇAMENTO</button>
         </div>
-
         <div className="mobile-menu-btn" onClick={() => setMenuOpen(true)} style={{ display: 'none', flexDirection: 'column', gap: '5px', cursor: 'pointer', padding: '10px' }}>
           <div style={{ width: '22px', height: '2px', backgroundColor: 'white' }}></div>
           <div style={{ width: '22px', height: '2px', backgroundColor: 'white' }}></div>
@@ -96,7 +100,6 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Menu Mobile Lateral */}
       {menuOpen && (
         <>
           <div onClick={() => setMenuOpen(false)} style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.9)', backdropFilter: 'blur(10px)', zIndex: 2000 }} />
@@ -111,14 +114,12 @@ export default function Home() {
         </>
       )}
 
-      {/* Hero */}
       <header style={{ textAlign: 'center', padding: '100px 6%', background: 'radial-gradient(circle at center, #1e3a8a12 0%, transparent 80%)' }}>
         <h1 className="hero-title" style={{ fontSize: '65px', fontWeight: '900', marginBottom: '20px', letterSpacing: '-2px', lineHeight: '1.1' }}>Excelência em <br/><span style={{ color: '#3b82f6' }}>Facilities & Portaria.</span></h1>
         <p style={{ color: '#666', fontSize: '18px', maxWidth: '600px', margin: '0 auto 40px' }}>Segurança ostensiva e conservação técnica para condomínios e empresas em Pernambuco.</p>
         <button onClick={() => setShowForm(true)} style={{ backgroundColor: '#3b82f6', color: 'white', padding: '20px 45px', borderRadius: '10px', fontWeight: 'bold', border: 'none', cursor: 'pointer', fontSize: '16px' }}>SOLICITAR ORÇAMENTO</button>
       </header>
 
-      {/* Quem Somos - Integrando a Imagem */}
       <section id="sobre" style={{ padding: '100px 6%', backgroundColor: '#080808' }}>
         <div className="grid-layout" style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '60px', maxWidth: '1200px', margin: '0 auto', alignItems: 'center' }}>
           <div>
@@ -141,13 +142,14 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Imagem do Profissional com Tratamento */}
           <div style={{ position: 'relative' }}>
-            <div className="img-container" style={{ width: '100%', height: '500px', borderRadius: '25px', overflow: 'hidden', border: '1px solid #222' }}>
+            <div className="img-container" style={{ width: '100%', height: '500px', borderRadius: '25px', overflow: 'hidden', border: '1px solid #222', backgroundColor: '#111' }}>
               <img 
-                src="jefferson.webp" 
-                alt="Profissional MP SERV PORT" 
-                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'right center', filter: 'contrast(1.1) brightness(0.9)' }} 
+                key={currentImg}
+                src={images[currentImg]} 
+                alt="Equipe MP SERV PORT" 
+                className="fade-image"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', filter: 'contrast(1.05) brightness(0.9)' }} 
               />
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(5,5,5,0.7), transparent)' }}></div>
             </div>
@@ -158,7 +160,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Seção de Serviços */}
       <section id="servicos" style={{ padding: '100px 6%' }}>
         <h2 style={{ textAlign: 'center', marginBottom: '50px', fontSize: '32px', fontWeight: '900' }}>Nossas <span style={{ color: '#3b82f6' }}>Soluções</span></h2>
         <div className="grid-layout" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '25px', maxWidth: '1200px', margin: '0 auto' }}>
@@ -176,7 +177,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Modal de Formulário */}
       {showForm && (
         <div onClick={() => setShowForm(false)} style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.95)', backdropFilter: 'blur(15px)', zIndex: 5000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
           <div onClick={(e) => e.stopPropagation()} style={{ background: '#0d0d0d', width: '100%', maxWidth: '450px', padding: '40px', borderRadius: '25px', border: '1px solid #222', animation: 'zoomIn 0.3s ease-out' }}>
@@ -200,7 +200,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* Footer Profissional */}
       <footer style={{ padding: '80px 6% 40px', borderTop: '1px solid #111', backgroundColor: '#030303', marginTop: '80px' }}>
         <div className="footer-grid" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '60px', maxWidth: '1200px', margin: '0 auto' }}>
           <div>
