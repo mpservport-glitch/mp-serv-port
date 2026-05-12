@@ -1,228 +1,92 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
+import { 
+  Shield, 
+  UserCheck, 
+  Building2, 
+  Phone, 
+  MapPin, 
+  ArrowRight, 
+  CheckCircle2, 
+  Menu, 
+  X 
+} from "lucide-react";
 
 export default function Home() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [showForm, setShowForm] = useState(false);
-  const [formStatus, setFormStatus] = useState("");
-  
-  const whatsappLink = "https://wa.me/5581999620635?text=Olá! Gostaria de um orçamento para serviços de portaria e limpeza.";
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, id: string) => {
-    e.preventDefault();
-    setMenuOpen(false);
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
+  const services = [
+    {
+      title: "Portaria e Controle de Acesso",
+      description: "Profissionais treinados para garantir a segurança e organização da entrada e saída de pessoas e veículos.",
+      icon: <Shield className="w-8 h-8 text-blue-500" />
+    },
+    {
+      title: "Facilities e Limpeza",
+      description: "Equipe especializada em manutenção e higienização para manter seu ambiente impecável.",
+      icon: <Building2 className="w-8 h-8 text-blue-500" />
+    },
+    {
+      title: "Zeladoria e Manutenção",
+      description: "Suporte preventivo e corretivo para garantir o pleno funcionamento do seu condomínio ou empresa.",
+      icon: <UserCheck className="w-8 h-8 text-blue-500" />
     }
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setFormStatus("Enviando...");
-    setTimeout(() => {
-      setFormStatus("Enviado com sucesso! Entraremos em contato.");
-      setTimeout(() => { 
-        setShowForm(false); 
-        setFormStatus(""); 
-      }, 2500);
-    }, 1500);
-  };
+  ];
 
   return (
-    <div style={{ backgroundColor: '#050505', color: 'white', minHeight: '100vh', fontFamily: 'sans-serif', margin: 0, padding: 0, overflowX: 'hidden' }}>
-      
-      <style dangerouslySetInnerHTML={{ __html: `
-        html { scroll-behavior: smooth; }
-        
-        /* Efeito de Pulso WhatsApp - Elegante e Discreto */
-        @keyframes whatsappPulse {
-          0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); }
-          70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
-          100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
-        }
-        
-        @keyframes zoomIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
-        
-        .whatsapp-float {
-          position: fixed;
-          bottom: 25px;
-          right: 25px;
-          background-color: #25d366;
-          width: 50px;
-          height: 50px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 4000;
-          animation: whatsappPulse 2s infinite;
-          text-decoration: none;
-        }
-
-        .input-focus:focus { outline: none; border-color: #3b82f6 !important; box-shadow: 0 0 8px rgba(59, 130, 246, 0.3); }
-        .service-card { transition: all 0.3s ease; }
-        .service-card:hover { border-color: #3b82f6 !important; transform: translateY(-5px); }
-        
-        @media (max-width: 768px) {
-          .hero-title { font-size: 42px !important; }
-          .desktop-nav { display: none !important; }
-          .mobile-menu-btn { display: flex !important; }
-          .grid-layout { grid-template-columns: 1fr !important; }
-          .footer-grid { grid-template-columns: 1fr !important; text-align: center; gap: 40px; }
-          .img-container { height: 350px !important; }
-        }
-      `}} />
-
-      {/* Botão WhatsApp Flutuante */}
-      <a href={whatsappLink} target="_blank" className="whatsapp-float">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style={{ width: '28px' }} />
-      </a>
-
-      {/* Header */}
-      <nav style={{ display: 'flex', justifyContent: 'space-between', padding: '20px 6%', alignItems: 'center', borderBottom: '1px solid #111', backgroundColor: 'rgba(5, 5, 5, 0.85)', backdropFilter: 'blur(12px)', position: 'sticky', top: 0, zIndex: 1500 }}>
-        <div style={{ fontSize: '20px', fontWeight: '900', letterSpacing: '-1px' }}>MP <span style={{ color: '#3b82f6' }}>SERV PORT</span></div>
-        
-        <div className="desktop-nav" style={{ display: 'flex', gap: '30px', alignItems: 'center' }}>
-          <a href="#sobre" onClick={(e) => handleScroll(e, 'sobre')} style={{ color: '#888', textDecoration: 'none', fontSize: '12px', fontWeight: 'bold' }}>QUEM SOMOS</a>
-          <a href="#servicos" onClick={(e) => handleScroll(e, 'servicos')} style={{ color: '#888', textDecoration: 'none', fontSize: '12px', fontWeight: 'bold' }}>SERVIÇOS</a>
-          <button onClick={() => setShowForm(true)} style={{ backgroundColor: '#3b82f6', color: 'white', border: 'none', padding: '10px 22px', borderRadius: '6px', fontWeight: 'bold', cursor: 'pointer', fontSize: '12px' }}>ORÇAMENTO</button>
-        </div>
-
-        <div className="mobile-menu-btn" onClick={() => setMenuOpen(true)} style={{ display: 'none', flexDirection: 'column', gap: '5px', cursor: 'pointer', padding: '10px' }}>
-          <div style={{ width: '22px', height: '2px', backgroundColor: 'white' }}></div>
-          <div style={{ width: '22px', height: '2px', backgroundColor: 'white' }}></div>
-          <div style={{ width: '22px', height: '2px', backgroundColor: 'white' }}></div>
+    <div style={{ backgroundColor: '#050505', color: 'white', minHeight: '100vh', fontFamily: 'sans-serif' }}>
+      {/* Navegação */}
+      <nav style={{ borderBottom: '1px solid #1a1a1a', padding: '1rem 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#3b82f6' }}>MP SERV PORT</h1>
+        <div style={{ display: 'flex', gap: '2rem' }}>
+          <a href="#servicos" style={{ color: '#9ca3af', textDecoration: 'none' }}>Serviços</a>
+          <a href="#contato" style={{ color: '#3b82f6', textDecoration: 'none', fontWeight: 'bold' }}>Contato</a>
         </div>
       </nav>
 
-      {/* Menu Mobile Lateral */}
-      {menuOpen && (
-        <>
-          <div onClick={() => setMenuOpen(false)} style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.9)', backdropFilter: 'blur(10px)', zIndex: 2000 }} />
-          <div style={{ position: 'fixed', top: 0, right: 0, width: '280px', height: '100%', backgroundColor: '#0a0a0a', zIndex: 2100, padding: '40px 30px', borderLeft: '1px solid #222' }}>
-            <div onClick={() => setMenuOpen(false)} style={{ fontSize: '35px', textAlign: 'right', cursor: 'pointer', color: '#3b82f6', marginBottom: '40px' }}>×</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
-              <a href="#sobre" onClick={(e) => handleScroll(e, 'sobre')} style={{ color: 'white', textDecoration: 'none', fontSize: '20px', fontWeight: 'bold' }}>QUEM SOMOS</a>
-              <a href="#servicos" onClick={(e) => handleScroll(e, 'servicos')} style={{ color: 'white', textDecoration: 'none', fontSize: '20px', fontWeight: 'bold' }}>SERVIÇOS</a>
-              <button onClick={() => { setMenuOpen(false); setShowForm(true); }} style={{ textAlign: 'left', background: 'none', border: 'none', color: '#3b82f6', fontSize: '20px', fontWeight: 'bold', cursor: 'pointer', padding: 0 }}>ORÇAMENTO</button>
-            </div>
-          </div>
-        </>
-      )}
-
-      {/* Hero */}
-      <header style={{ textAlign: 'center', padding: '100px 6%', background: 'radial-gradient(circle at center, #1e3a8a12 0%, transparent 80%)' }}>
-        <h1 className="hero-title" style={{ fontSize: '65px', fontWeight: '900', marginBottom: '20px', letterSpacing: '-2px', lineHeight: '1.1' }}>Excelência em <br/><span style={{ color: '#3b82f6' }}>Facilities & Portaria.</span></h1>
-        <p style={{ color: '#666', fontSize: '18px', maxWidth: '600px', margin: '0 auto 40px' }}>Segurança ostensiva e conservação técnica para condomínios e empresas em Pernambuco.</p>
-        <button onClick={() => setShowForm(true)} style={{ backgroundColor: '#3b82f6', color: 'white', padding: '20px 45px', borderRadius: '10px', fontWeight: 'bold', border: 'none', cursor: 'pointer', fontSize: '16px' }}>SOLICITAR ORÇAMENTO</button>
-      </header>
-
-      {/* Quem Somos - Integrando a Imagem */}
-      <section id="sobre" style={{ padding: '100px 6%', backgroundColor: '#080808' }}>
-        <div className="grid-layout" style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '60px', maxWidth: '1200px', margin: '0 auto', alignItems: 'center' }}>
-          <div>
-            <h2 style={{ fontSize: '34px', fontWeight: '900', marginBottom: '25px' }}>Quem <span style={{ color: '#3b82f6' }}>Somos</span></h2>
-            <p style={{ color: '#888', lineHeight: '1.8', marginBottom: '20px', fontSize: '16px' }}>
-              A <strong>MP SERV PORT</strong> é referência em gestão de serviços terceirizados. Focamos no recrutamento rigoroso e no treinamento contínuo para garantir que cada posto de trabalho reflita nossa cultura de prontidão e cordialidade.
-            </p>
-            <p style={{ color: '#888', lineHeight: '1.8', marginBottom: '30px' }}>
-              Atuamos com tecnologia de monitoramento integrada e supervisão presencial 24h, oferecendo uma camada extra de proteção ao seu patrimônio.
-            </p>
-            <div style={{ display: 'flex', gap: '20px' }}>
-              <div style={{ background: '#0d0d0d', padding: '20px', borderRadius: '12px', border: '1px solid #1a1a1a', flex: 1, textAlign: 'center' }}>
-                <div style={{ color: '#3b82f6', fontSize: '22px', fontWeight: 'bold' }}>24h</div>
-                <div style={{ fontSize: '11px', color: '#444', fontWeight: 'bold', marginTop: '5px' }}>SUPERVISÃO</div>
-              </div>
-              <div style={{ background: '#0d0d0d', padding: '20px', borderRadius: '12px', border: '1px solid #1a1a1a', flex: 1, textAlign: 'center' }}>
-                <div style={{ color: '#3b82f6', fontSize: '22px', fontWeight: 'bold' }}>100%</div>
-                <div style={{ fontSize: '11px', color: '#444', fontWeight: 'bold', marginTop: '5px' }}>TREINADOS</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Imagem do Profissional com Tratamento */}
-          <div style={{ position: 'relative' }}>
-            <div className="img-container" style={{ width: '100%', height: '500px', borderRadius: '25px', overflow: 'hidden', border: '1px solid #222' }}>
-              <img 
-                src="jefferson.webp" 
-                alt="Profissional MP SERV PORT" 
-                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'right center', filter: 'contrast(1.1) brightness(0.9)' }} 
-              />
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(5,5,5,0.7), transparent)' }}></div>
-            </div>
-            <div style={{ position: 'absolute', bottom: '-15px', right: '-15px', backgroundColor: '#3b82f6', color: 'white', padding: '15px 25px', borderRadius: '10px', fontWeight: 'bold', fontSize: '12px', boxShadow: '0 10px 20px rgba(59, 130, 246, 0.3)' }}>
-              POSTURA PROFISSIONAL
-            </div>
-          </div>
+      {/* Hero Section */}
+      <section style={{ padding: '5rem 2rem', textAlign: 'center', background: 'linear-gradient(to bottom, #0a0a0a, #050505)' }}>
+        <h2 style={{ fontSize: '3.5rem', marginBottom: '1.5rem' }}>Excelência em <span style={{ color: '#3b82f6' }}>Facilities</span> e Portaria</h2>
+        <p style={{ fontSize: '1.2rem', color: '#9ca3af', maxWidth: '800px', margin: '0 auto 2rem' }}>
+          Soluções inteligentes e profissionais capacitados para o seu condomínio ou empresa. Segurança e eficiência em cada detalhe.
+        </p>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
+          <button style={{ backgroundColor: '#3b82f6', color: 'white', padding: '1rem 2rem', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}>
+            Solicitar Orçamento
+          </button>
         </div>
       </section>
 
-      {/* Seção de Serviços */}
-      <section id="servicos" style={{ padding: '100px 6%' }}>
-        <h2 style={{ textAlign: 'center', marginBottom: '50px', fontSize: '32px', fontWeight: '900' }}>Nossas <span style={{ color: '#3b82f6' }}>Soluções</span></h2>
-        <div className="grid-layout" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '25px', maxWidth: '1200px', margin: '0 auto' }}>
-          {[
-            { t: 'Portaria', d: 'Controle de acesso rigoroso com foco em segurança e recepção de moradores e visitantes.' },
-            { t: 'Vigia Rondante', d: 'Rondas estratégicas e monitoramento de áreas vulneráveis para prevenção de incidentes.' },
-            { t: 'Limpeza (ASG)', d: 'Conservação e higienização técnica de áreas comuns com cronogramas personalizados.' }
-          ].map((s, i) => (
-            <div key={i} className="service-card" style={{ background: '#0d0d0d', padding: '45px', borderRadius: '25px', border: '1px solid #1a1a1a', textAlign: 'center' }}>
-              <h3 style={{ color: '#3b82f6', marginBottom: '18px', fontSize: '20px' }}>{s.t}</h3>
-              <p style={{ color: '#555', fontSize: '14px', lineHeight: '1.6', marginBottom: '30px' }}>{s.d}</p>
-              <button onClick={() => setShowForm(true)} style={{ background: 'transparent', color: '#3b82f6', border: '1px solid #3b82f6', padding: '10px 25px', borderRadius: '8px', fontSize: '12px', fontWeight: 'bold', cursor: 'pointer' }}>SOLICITAR</button>
+      {/* Serviços */}
+      <section id="servicos" style={{ padding: '5rem 2rem' }}>
+        <h3 style={{ textAlign: 'center', fontSize: '2.5rem', marginBottom: '3rem' }}>Nossos Serviços</h3>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
+          {services.map((s, i) => (
+            <div key={i} style={{ backgroundColor: '#0a0a0a', padding: '2rem', borderRadius: '12px', border: '1px solid #1a1a1a' }}>
+              <div style={{ marginBottom: '1rem' }}>{s.icon}</div>
+              <h4 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>{s.title}</h4>
+              <p style={{ color: '#9ca3af', lineHeight: '1.6' }}>{s.description}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Modal de Formulário */}
-      {showForm && (
-        <div onClick={() => setShowForm(false)} style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.95)', backdropFilter: 'blur(15px)', zIndex: 5000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
-          <div onClick={(e) => e.stopPropagation()} style={{ background: '#0d0d0d', width: '100%', maxWidth: '450px', padding: '40px', borderRadius: '25px', border: '1px solid #222', animation: 'zoomIn 0.3s ease-out' }}>
-            <button onClick={() => setShowForm(false)} style={{ float: 'right', background: 'none', border: 'none', color: '#444', fontSize: '30px', cursor: 'pointer' }}>×</button>
-            <h2 style={{ color: '#3b82f6', marginBottom: '10px', fontWeight: '900' }}>Orçamento</h2>
-            <p style={{ color: '#555', fontSize: '13px', marginBottom: '25px' }}>Preencha os dados e retornaremos via WhatsApp.</p>
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-              <input type="text" required className="input-focus" style={{ padding: '15px', backgroundColor: '#050505', border: '1px solid #222', borderRadius: '10px', color: 'white' }} placeholder="Nome ou Empresa" />
-              <input type="tel" required className="input-focus" style={{ padding: '15px', backgroundColor: '#050505', border: '1px solid #222', borderRadius: '10px', color: 'white' }} placeholder="WhatsApp (DDD)" />
-              <select required className="input-focus" style={{ padding: '15px', backgroundColor: '#050505', border: '1px solid #222', borderRadius: '10px', color: '#777' }}>
-                <option value="">Serviço de interesse...</option>
-                <option value="portaria">Portaria</option>
-                <option value="vigia">Vigia</option>
-                <option value="asg">Limpeza / ASG</option>
-              </select>
-              <textarea rows={3} className="input-focus" style={{ padding: '15px', backgroundColor: '#050505', border: '1px solid #222', borderRadius: '10px', color: 'white', resize: 'none' }} placeholder="Descreva brevemente sua necessidade..."></textarea>
-              <button type="submit" style={{ padding: '18px', backgroundColor: '#3b82f6', color: 'white', border: 'none', borderRadius: '10px', fontWeight: 'bold', cursor: 'pointer', fontSize: '16px' }}>ENVIAR SOLICITAÇÃO</button>
-              {formStatus && <p style={{ color: '#3b82f6', textAlign: 'center', fontWeight: 'bold', marginTop: '15px' }}>{formStatus}</p>}
-            </form>
+      {/* Rodapé / Contato */}
+      <footer id="contato" style={{ padding: '4rem 2rem', backgroundColor: '#0a0a0a', borderTop: '1px solid #1a1a1a' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
+          <h3 style={{ marginBottom: '2rem' }}>Fale Conosco</h3>
+          <p style={{ color: '#9ca3af', marginBottom: '1rem' }}>Disponível 24h para emergências e suporte.</p>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap' }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Phone className="w-5 h-5 text-blue-500" /> (11) 99999-9999
+            </span>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <MapPin className="w-5 h-5 text-blue-500" /> São Paulo, SP
+            </span>
           </div>
-        </div>
-      )}
-
-      {/* Footer Profissional */}
-      <footer style={{ padding: '80px 6% 40px', borderTop: '1px solid #111', backgroundColor: '#030303', marginTop: '80px' }}>
-        <div className="footer-grid" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '60px', maxWidth: '1200px', margin: '0 auto' }}>
-          <div>
-            <h2 style={{ fontSize: '22px', fontWeight: '900', color: 'white', marginBottom: '15px' }}>MP SERV PORT</h2>
-            <p style={{ color: '#444', fontSize: '14px', lineHeight: '1.8' }}>Excelência operacional em Recife e região metropolitana. Focados em qualidade humana e eficiência técnica.</p>
-            <p style={{ color: '#222', fontSize: '12px', marginTop: '20px', fontWeight: 'bold' }}>CNPJ: 62.068.165/0001-52</p>
-          </div>
-          <div>
-            <h3 style={{ fontSize: '14px', color: '#3b82f6', marginBottom: '20px', fontWeight: 'bold' }}>CONTATO</h3>
-            <p style={{ color: '#888', fontSize: '14px', marginBottom: '10px' }}>📧 mpservport@gmail.com</p>
-            <p style={{ color: '#888', fontSize: '14px' }}>📱 (81) 99962-0635</p>
-          </div>
-          <div>
-            <h3 style={{ fontSize: '14px', color: '#3b82f6', marginBottom: '20px', fontWeight: 'bold' }}>LEGAL</h3>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, color: '#444', fontSize: '14px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <li>Política de Privacidade</li>
-              <li>Termos de Uso</li>
-            </ul>
-          </div>
-        </div>
-        <div style={{ textAlign: 'center', marginTop: '80px', color: '#1a1a1a', fontSize: '10px', letterSpacing: '3px', fontWeight: 'bold' }}>
-          © 2026 MP SERV PORT - QUALIDADE EM CADA DETALHE
+          <p style={{ marginTop: '3rem', fontSize: '0.9rem', color: '#4b5563' }}>
+            © 2026 MP SERV PORT. Todos os direitos reservados.
+          </p>
         </div>
       </footer>
     </div>
