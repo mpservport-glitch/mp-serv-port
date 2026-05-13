@@ -7,7 +7,6 @@ export default function Home() {
   const [formStatus, setFormStatus] = useState("");
   const [currentImg, setCurrentImg] = useState(0);
 
-  // Nomes das imagens na pasta /public
   const images = ["jefferson.webp", "valdemir.webp"];
 
   useEffect(() => {
@@ -28,7 +27,6 @@ export default function Home() {
     }
   };
 
-  // FUNÇÃO DE ENVIO REAL CONECTADA À API
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormStatus("Enviando...");
@@ -50,15 +48,12 @@ export default function Home() {
 
       if (response.ok) {
         setFormStatus("Enviado com sucesso! Verifique seu e-mail.");
-        setTimeout(() => { 
-          setShowForm(false); 
-          setFormStatus(""); 
-        }, 3000);
+        setTimeout(() => { setShowForm(false); setFormStatus(""); }, 3000);
       } else {
         setFormStatus("Erro ao enviar. Tente pelo WhatsApp.");
       }
     } catch (err) {
-      setFormStatus("Erro de conexão. Tente novamente.");
+      setFormStatus("Erro de conexão.");
     }
   };
 
@@ -80,7 +75,7 @@ export default function Home() {
           animation: whatsappPulse 2s infinite; text-decoration: none;
         }
         .input-focus:focus { outline: none; border-color: #3b82f6 !important; box-shadow: 0 0 8px rgba(59, 130, 246, 0.3); }
-        .service-card { transition: all 0.3s ease; }
+        .service-card { transition: all 0.3s ease; background: #0d0d0d; padding: 40px; border-radius: 25px; border: 1px solid #1a1a1a; text-align: center; }
         .service-card:hover { border-color: #3b82f6 !important; transform: translateY(-5px); }
         .fade-image { transition: opacity 0.8s ease-in-out; }
         @media (max-width: 768px) {
@@ -97,6 +92,7 @@ export default function Home() {
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style={{ width: '28px' }} />
       </a>
 
+      {/* Header */}
       <nav style={{ display: 'flex', justifyContent: 'space-between', padding: '20px 6%', alignItems: 'center', borderBottom: '1px solid #111', backgroundColor: 'rgba(5, 5, 5, 0.85)', backdropFilter: 'blur(12px)', position: 'sticky', top: 0, zIndex: 1500 }}>
         <div style={{ fontSize: '20px', fontWeight: '900', letterSpacing: '-1px' }}>MP <span style={{ color: '#3b82f6' }}>SERV PORT</span></div>
         <div className="desktop-nav" style={{ display: 'flex', gap: '30px', alignItems: 'center' }}>
@@ -118,12 +114,17 @@ export default function Home() {
         <button onClick={() => setShowForm(true)} style={{ backgroundColor: '#3b82f6', color: 'white', padding: '20px 45px', borderRadius: '10px', fontWeight: 'bold', border: 'none', cursor: 'pointer', fontSize: '16px' }}>SOLICITAR ORÇAMENTO</button>
       </header>
 
-      {/* Sobre e Revezamento de Imagens */}
+      {/* Quem Somos - RESTAURADO */}
       <section id="sobre" style={{ padding: '100px 6%', backgroundColor: '#080808' }}>
         <div className="grid-layout" style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '60px', maxWidth: '1200px', margin: '0 auto', alignItems: 'center' }}>
           <div>
             <h2 style={{ fontSize: '34px', fontWeight: '900', marginBottom: '25px' }}>Quem <span style={{ color: '#3b82f6' }}>Somos</span></h2>
-            <p style={{ color: '#888', lineHeight: '1.8', marginBottom: '20px', fontSize: '16px' }}>A <strong>MP SERV PORT</strong> foca no recrutamento rigoroso e treinamento contínuo para garantir que cada posto de trabalho reflita nossa cultura de prontidão.</p>
+            <p style={{ color: '#888', lineHeight: '1.8', marginBottom: '20px', fontSize: '16px' }}>
+              A <strong>MP SERV PORT</strong> é referência em gestão de serviços terceirizados. Focamos no recrutamento rigoroso e no treinamento contínuo para garantir que cada posto de trabalho reflita nossa cultura de prontidão e cordialidade.
+            </p>
+            <p style={{ color: '#888', lineHeight: '1.8', marginBottom: '30px' }}>
+              Atuamos com tecnologia de monitoramento integrada e supervisão presencial 24h, oferecendo uma camada extra de proteção ao seu patrimônio.
+            </p>
             <div style={{ display: 'flex', gap: '20px' }}>
               <div style={{ background: '#0d0d0d', padding: '20px', borderRadius: '12px', border: '1px solid #1a1a1a', flex: 1, textAlign: 'center' }}>
                 <div style={{ color: '#3b82f6', fontSize: '22px', fontWeight: 'bold' }}>24h</div>
@@ -136,6 +137,7 @@ export default function Home() {
             </div>
           </div>
 
+          {/* Revezamento de Fotos */}
           <div style={{ position: 'relative' }}>
             <div className="img-container" style={{ width: '100%', height: '500px', borderRadius: '25px', overflow: 'hidden', border: '1px solid #222', backgroundColor: '#111' }}>
               <img 
@@ -151,14 +153,31 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Formulário com Atributos Name */}
+      {/* Serviços - RESTAURADO */}
+      <section id="servicos" style={{ padding: '100px 6%' }}>
+        <h2 style={{ textAlign: 'center', marginBottom: '50px', fontSize: '32px', fontWeight: '900' }}>Nossas <span style={{ color: '#3b82f6' }}>Soluções</span></h2>
+        <div className="grid-layout" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '25px', maxWidth: '1200px', margin: '0 auto' }}>
+          {[
+            { t: 'Portaria', d: 'Controle de acesso rigoroso com foco em segurança e recepção de moradores e visitantes.' },
+            { t: 'Vigia Rondante', d: 'Rondas estratégicas e monitoramento de áreas vulneráveis para prevenção de incidentes.' },
+            { t: 'Limpeza (ASG)', d: 'Conservação e higienização técnica de áreas comuns com cronogramas personalizados.' }
+          ].map((s, i) => (
+            <div key={i} className="service-card">
+              <h3 style={{ color: '#3b82f6', marginBottom: '18px', fontSize: '20px' }}>{s.t}</h3>
+              <p style={{ color: '#555', fontSize: '14px', lineHeight: '1.6', marginBottom: '30px' }}>{s.d}</p>
+              <button onClick={() => setShowForm(true)} style={{ background: 'transparent', color: '#3b82f6', border: '1px solid #3b82f6', padding: '10px 25px', borderRadius: '8px', fontSize: '12px', fontWeight: 'bold', cursor: 'pointer' }}>SOLICITAR</button>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Formulário - RESTAURADO E FUNCIONAL */}
       {showForm && (
         <div onClick={() => setShowForm(false)} style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.95)', backdropFilter: 'blur(15px)', zIndex: 5000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
           <div onClick={(e) => e.stopPropagation()} style={{ background: '#0d0d0d', width: '100%', maxWidth: '450px', padding: '40px', borderRadius: '25px', border: '1px solid #222', animation: 'zoomIn 0.3s ease-out' }}>
             <button onClick={() => setShowForm(false)} style={{ float: 'right', background: 'none', border: 'none', color: '#444', fontSize: '30px', cursor: 'pointer' }}>×</button>
             <h2 style={{ color: '#3b82f6', marginBottom: '10px', fontWeight: '900' }}>Orçamento</h2>
             <p style={{ color: '#555', fontSize: '13px', marginBottom: '25px' }}>Retornaremos em instantes via WhatsApp.</p>
-            
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
               <input name="nome" type="text" required className="input-focus" style={{ padding: '15px', backgroundColor: '#050505', border: '1px solid #222', borderRadius: '10px', color: 'white' }} placeholder="Nome ou Empresa" />
               <input name="whatsapp" type="tel" required className="input-focus" style={{ padding: '15px', backgroundColor: '#050505', border: '1px solid #222', borderRadius: '10px', color: 'white' }} placeholder="WhatsApp (DDD)" />
@@ -176,18 +195,29 @@ export default function Home() {
         </div>
       )}
 
-      {/* Rodapé com CNPJ real conforme imagem_81987f.png */}
+      {/* Footer - RESTAURADO */}
       <footer style={{ padding: '80px 6% 40px', borderTop: '1px solid #111', backgroundColor: '#030303', marginTop: '80px' }}>
         <div className="footer-grid" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '60px', maxWidth: '1200px', margin: '0 auto' }}>
           <div>
-            <h2 style={{ fontSize: '22px', fontWeight: '900', color: 'white', marginBottom: '15px' }}>MP SERV PORT</h2>
-            <p style={{ color: '#444', fontSize: '14px', lineHeight: '1.8' }}>Recife e região metropolitana. Focados em qualidade humana e eficiência técnica.</p>
+            <h2 style={{ fontSize: '22px', fontWeight: '900', color: 'white', marginBottom: '15px' }}>MP <span style={{ color: '#3b82f6' }}>SERV PORT</span></h2>
+            <p style={{ color: '#444', fontSize: '14px', lineHeight: '1.8' }}>Excelência operacional em Recife e região metropolitana. Focados em qualidade humana e eficiência técnica.</p>
             <p style={{ color: '#222', fontSize: '12px', marginTop: '20px', fontWeight: 'bold' }}>CNPJ: 62.068.165/0001-52</p>
           </div>
           <div>
             <h3 style={{ fontSize: '14px', color: '#3b82f6', marginBottom: '20px', fontWeight: 'bold' }}>CONTATO</h3>
+            <p style={{ color: '#888', fontSize: '14px', marginBottom: '10px' }}>📧 mpservport@gmail.com</p>
             <p style={{ color: '#888', fontSize: '14px' }}>📱 (81) 99962-0635</p>
           </div>
+          <div>
+            <h3 style={{ fontSize: '14px', color: '#3b82f6', marginBottom: '20px', fontWeight: 'bold' }}>LEGAL</h3>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, color: '#444', fontSize: '14px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <li>Política de Privacidade</li>
+              <li>Termos de Uso</li>
+            </ul>
+          </div>
+        </div>
+        <div style={{ textAlign: 'center', marginTop: '80px', color: '#1a1a1a', fontSize: '10px', letterSpacing: '3px', fontWeight: 'bold' }}>
+          © 2026 MP SERV PORT - QUALIDADE EM CADA DETALHE
         </div>
       </footer>
     </div>
